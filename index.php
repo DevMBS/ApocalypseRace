@@ -124,19 +124,9 @@
             img{
                 display:none;
             }
-            #9{
-                display:inline;
-            }
-            #bit{
-                display:inline;
-            }
-            #blah{
-                left:100px;
-            }
 	</style>
     <br/><br/><br/><br/>
-    <span id="blah">9b</span>
-    <h1><span id="9">9B</span>IT Development</h1>
+    <h1>MBS Development</h1>
     
     
    <a href="openLevel.php" class="btn">
