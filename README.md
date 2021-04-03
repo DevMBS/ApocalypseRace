@@ -1,10 +1,10 @@
 # Racing
-##ThreeJS 3D drag obstacle race game
+## ThreeJS 3D drag obstacle race game
 
 ![screenshot](readme.png)
 
 
-###Setup:
+### Setup:
 1. JavaScript
 2. HTML5
 3. CSS3
