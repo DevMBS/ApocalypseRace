@@ -74,7 +74,7 @@
 					this.resetCamera();
                     
 					
-					const loader = new THREE.TextureLoader();
+					var loader = new THREE.TextureLoader();
 
 
 
@@ -138,45 +138,32 @@
 		            car1.position.z = 2880;//400
 		            car1.position.y = 440;//-92
 		            car1.position.x = -7730;//40
-		            //const wheelGeometry = new THREE.CylinderBufferGeometry(5, 5, 3, 15);
-		            //
-		            //const wheelmaterials = [
-					//  new THREE.MeshPhysicalMaterial({map: loader.load('wheeltexture2.jpg')}),
-					//  new THREE.MeshPhysicalMaterial({map: loader.load('wheeltexture123.png')}),
-					//  new THREE.MeshPhysicalMaterial({map: loader.load('wheeltexture123.png')}),
-					//];
-		            //const wheel1 = new THREE.Mesh(wheelGeometry, wheelmaterials);
-		            //scene.add(wheel1);
-		            //wheel1.position.z = 2854;
-		            //wheel1.position.y = 437;
-		            //wheel1.position.x = -7741;
-		            //wheel1.rotation.z = 80.1;
-					//wheel1.castShadow = true;
-					//wheel1.receiveShadow = true;
-		            //const wheel2 = new THREE.Mesh(wheelGeometry, wheelmaterials);
-		            //scene.add(wheel2);
-		            //wheel2.position.z = 2887;
-		            //wheel2.position.y = 437;
-		            //wheel2.position.x = -7741;
-		            //wheel2.rotation.z = 80.1;
-					//wheel2.castShadow = true;
-					//wheel2.receiveShadow = true;
-		            //const wheel3 = new THREE.Mesh(wheelGeometry, wheelmaterials);
-		            //scene.add(wheel3);
-		            //wheel3.position.z = 2854;
-		            //wheel3.position.y = 437;
-		            //wheel3.position.x = -7719;
-		            //wheel3.rotation.z = 80.1;
-					//wheel3.castShadow = true;
-					//wheel3.receiveShadow = true;
-		            //const wheel4 = new THREE.Mesh(wheelGeometry, wheelmaterials);
-		            //scene.add(wheel4);
-		            //wheel4.position.z = 2887;
-		            //wheel4.position.y = 437;
-		            //wheel4.position.x = -7719;
-		            //wheel4.rotation.z = 80.1;
-					//wheel4.castShadow = true;
-					//wheel4.receiveShadow = true;
+
+
+		            const wheelGeometry = new THREE.CylinderBufferGeometry(4, 4, 1, 30);
+		            const wheelmaterials = [
+					  new THREE.MeshPhysicalMaterial({map: loader.load('wheeltexture2.jpg')}),
+					  new THREE.MeshPhysicalMaterial({map: loader.load('wheeltexture123.png')}),
+					  new THREE.MeshPhysicalMaterial({map: loader.load('wheeltexture123.png')}),
+					];
+
+
+		            const wheel1 = new THREE.Mesh(wheelGeometry, wheelmaterials);
+		            scene.add(wheel1);
+		            wheel1.position.z = 2845;
+		            wheel1.position.y = 434.5;
+		            wheel1.position.x = -7864.5;
+		            wheel1.rotation.z = 80.1;
+					wheel1.castShadow = true;
+					wheel1.receiveShadow = true;
+		            const wheel2 = new THREE.Mesh(wheelGeometry, wheelmaterials);
+		            scene.add(wheel2);
+		            wheel2.position.z = 2891;
+		            wheel2.position.y = 434.7;
+		            wheel2.position.x = -7865.2;
+		            wheel2.rotation.z = 80.1;
+					wheel2.castShadow = true;
+					wheel2.receiveShadow = true;
 		
 			        //making a markup
                     const markupGeometry = new THREE.BoxGeometry(10, 2, 20000);
@@ -598,6 +585,8 @@
                     var counterA = 0;
                     var counterK = 0;
                     var stopperW = true;
+					var toLeftPosCounter = 0;
+					var toRightPosCounter = 0;
                     
                     document.addEventListener('keydown', function(event, boostInterval) {
                         
@@ -608,17 +597,16 @@
 
 
                         //to left & to right
-
+						
                         //to right
-                        if (event.code == 'KeyD' && car1.position.x < -7610 && stopperW == false){
-                        	camera.position.x+=5;
-                            car1.position.x+=5;
-                            //wheel1.position.x += 5;
-                            //wheel2.position.x += 5;
-                            //wheel3.position.x += 5;
-                            //wheel4.position.x += 5;
-                            
-							car.position.x += 5;
+                        if (event.code == 'KeyD' && car.position.x < -7610 && stopperW == false){
+							toLeftPosCounter = 0;
+                        	camera.position.x+=1+toRightPosCounter;
+                            car1.position.x+=1+toRightPosCounter;
+							car.position.x += 1+toRightPosCounter;
+							if(toRightPosCounter < 5){
+								toRightPosCounter++;
+							}
                             
                             //finish: stop cars, calculate cash, saving cash, printing cash & u win or lose
                             if(car.position.z < -15000){
@@ -667,15 +655,13 @@
 
                         //to left
                         if (event.code == 'KeyA' && car.position.x> -7780 && stopperW == false){
-                        	camera.position.x-=5;
-                            car1.position.x-=5;
-                            
-                            //wheel1.position.x -= 5;
-                            //wheel2.position.x -= 5;
-                            //wheel3.position.x -= 5;
-                            //wheel4.position.x -= 5;
-                            
-							car.position.x -= 5;
+                        	camera.position.x-=(1+toLeftPosCounter);
+                            car1.position.x-=(1+toLeftPosCounter);
+							car.position.x -= (1+toLeftPosCounter);
+							toRightPosCounter = 0;
+							if(toLeftPosCounter < 6){
+								toLeftPosCounter++;
+							}
                             
                             //finish: stop cars, calculate cash, saving cash, printing cash & u win or lose
                             if(car.position.z < -15000){
@@ -787,22 +773,7 @@
                             camera.position.z-=speed;
                             car1.position.z-=speed;
                             
-                            //wheel1.position.z -= speed;
-                            //wheel2.position.z -= speed;
-                            //wheel3.position.z -= speed;
-                            //wheel4.position.z -= speed;
-                            
 							car.position.z -= speed;
-
-
-                            //wheel1.rotation.x -= speed/10;
-                            //wheel2.rotation.x -= speed/10;
-                            //wheel3.rotation.x -= speed/10;
-                            //wheel4.rotation.x -= speed/10;
-
-							
-
-
 
                             // collision detection!!!
 							var collidableMeshList = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10, wall11, wall12, wall13, wall14, wall15, wall16, wall17, wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, cone1, cone2, cone3, cone4, cone5, cone6, cone7, cone8, cone9, cone10, cone11, cone12, cone13, cone14, cone15, cone16, cone17, cone18, cone19, cone20, cone21, cone22, cone23, cone24, cone25, cone26, cone27, cone28, cone29, cone30, cone31, cone32, cone33, cone34, cone35, cone36, cone37, cone38, cone39, cone40, cone41, cone42, cone43, cone44, cone45, cone46];						
@@ -822,9 +793,9 @@
                                 	document.getElementById("speed").style.color="black";
                                 	document.getElementById("backToMenu").style.display="block";
                                 	let cash = localStorage.getItem("cash");
-                          			let newCash = Number(cash)-200;
+                          			let newCash = Number(cash)-100;
                                 	localStorage.setItem("cash", newCash);
-                                	document.getElementById("cash").innerHTML = "Your award: -200$";
+                                	document.getElementById("cash").innerHTML = "Your award: -100$";
 
 								}
 								}	
@@ -1008,14 +979,10 @@
 					function moveRC(MRCInterval){
                         if(stopperW == false){
                         
-                        //wheel1R.position.z -= speedR;
-                        //wheel2R.position.z -= speedR;
-                        //wheel3R.position.z -= speedR;
-                        //wheel4R.position.z -= speedR;
-                        //wheel1R.rotation.x -= speedR/10;
-                        //wheel2R.rotation.x -= speedR/10;
-                        //wheel3R.rotation.x -= speedR/10;
-                        //wheel4R.rotation.x -= speedR/10;
+                        wheel1.position.z -= speedR;
+                        wheel2.position.z -= speedR;
+                        wheel1.rotation.x -= speedR/10;
+                        wheel2.rotation.x -= speedR/10;
 						botCar.position.z -= speedR;
                     
                         
@@ -1085,7 +1052,6 @@
                     
 
 				},
-				
 				resizeDisplayGL: function () {
 
 					
@@ -1111,7 +1077,7 @@
 					this.camera.position.x = -7730;
                     this.camera.position.y = 460;
                     this.camera.position.z = 2985;
-                    this.camera.rotation.x = 0;
+                    //this.camera.rotation.y = 45;
                     
 
 					
