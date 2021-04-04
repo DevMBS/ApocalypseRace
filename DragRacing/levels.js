@@ -636,18 +636,14 @@
                                 	out.i = resCounter;
                                     let output = net.run(out);
                                 	localStorage.setItem("index", output.i);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i;
-                                	localStorage.setItem("speed", speed);
+                                	
                                 }
                                 else{
                                 	let out = {i:130};
                                 	out.i = resCounter;
                                     let output = net2.run(out);
                                 	localStorage.setItem("index", output.i*10);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i*10;
-                                	localStorage.setItem("speed", speed);
+                                	
                                 	
                                 }
                             }
@@ -691,18 +687,13 @@
                                 	out.i = resCounter;
                                     let output = net.run(out);
                                 	localStorage.setItem("index", output.i);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i;
-                                	localStorage.setItem("speed", speed);
+                                	
                                 }
                                 else{
                                 	let out = {i:130};
                                 	out.i = resCounter;
                                     let output = net2.run(out);
                                 	localStorage.setItem("index", output.i*10);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i*10;
-                                	localStorage.setItem("speed", speed);
                                 	
                                 }
                             }
@@ -748,18 +739,13 @@
                                 	out.i = resCounter;
                                     let output = net.run(out);
                                 	localStorage.setItem("index", output.i);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i;
-                                	localStorage.setItem("speed", speed);
+                                	
                                 }
                                 else{
                                 	let out = {i:130};
                                 	out.i = resCounter;
                                     let output = net2.run(out);
                                 	localStorage.setItem("index", output.i*10);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i*10;
-                                	localStorage.setItem("speed", speed);
                                 	
                                 }
                             }         
@@ -774,6 +760,29 @@
                             car1.position.z-=speed;
                             
 							car.position.z -= speed;
+
+
+
+							//																		           //
+							//																		            //
+							//																		             //
+							// USING SUPER MEGA ADAPTIVE SPEED CONTROL SYSTEM (ASCS 2.0) BASED ON NEURAL NETWORKS //
+							//																		             //
+							//																		            //
+							//																		           //
+
+
+
+							wheel1.position.z -= speed*Number(localStorage.getItem("index"));
+                        	wheel2.position.z -= speed*Number(localStorage.getItem("index"));
+                        	wheel1.rotation.x -= (speed*Number(localStorage.getItem("index")))/10;
+                        	wheel2.rotation.x -= (speed*Number(localStorage.getItem("index")))/10;
+							botCar.position.z -= speed*Number(localStorage.getItem("index"));
+							if(botCar.position.z < -15000){
+								clearInterval(MRCInterval);
+								finished = true;
+								RcarFinished(finished);
+							}
 
                             // collision detection!!!
 							var collidableMeshList = [wall1, wall2, wall3, wall4, wall5, wall6, wall7, wall8, wall9, wall10, wall11, wall12, wall13, wall14, wall15, wall16, wall17, wall18, wall19, wall20, wall21, wall22, wall23, wall24, wall25, wall26, wall27, wall28, cone1, cone2, cone3, cone4, cone5, cone6, cone7, cone8, cone9, cone10, cone11, cone12, cone13, cone14, cone15, cone16, cone17, cone18, cone19, cone20, cone21, cone22, cone23, cone24, cone25, cone26, cone27, cone28, cone29, cone30, cone31, cone32, cone33, cone34, cone35, cone36, cone37, cone38, cone39, cone40, cone41, cone42, cone43, cone44, cone45, cone46];						
@@ -835,18 +844,12 @@
                                 	out.i = resCounter;
                                     let output = net.run(out);
                                 	localStorage.setItem("index", output.i);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i;
-                                	localStorage.setItem("speed", speed);
                                 }
                                 else{
                                 	let out = {i:130};
                                 	out.i = resCounter;
                                     let output = net2.run(out);
                                 	localStorage.setItem("index", output.i*10);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i*10;
-                                	localStorage.setItem("speed", speed);
                                 	
                                 }
                             }
@@ -893,7 +896,7 @@
                 let c = 3;
                 function go(startInterval){
                     if(c == -1){
-                        var MRCInterval = setInterval(moveRC, 10);
+                        //var MRCInterval = setInterval(moveRC, 10);
                         document.getElementById("s").innerHTML = "";
                         clearInterval(startInterval);
                     }
@@ -955,54 +958,19 @@
                                 	out.i = resCounter;
                                     let output = net.run(out);
                                 	localStorage.setItem("index", output.i);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i;
-                                	localStorage.setItem("speed", speed);
                                 }
                                 else{
                                 	let out = {i:130};
                                 	out.i = resCounter;
                                     let output = net2.run(out);
                                 	localStorage.setItem("index", output.i*10);
-                                	let Pspeed = localStorage.getItem("speed");
-                                	const speed = Pspeed*output.i*10;
-                                	localStorage.setItem("speed", speed);
+                                	
                                 }
                             co++;
                             }
                         }
 
-                //bot's car acceleration
                 var finished = false;
-                let speedR = 0;
-				
-					function moveRC(MRCInterval){
-                        if(stopperW == false){
-                        
-                        wheel1.position.z -= speedR;
-                        wheel2.position.z -= speedR;
-                        wheel1.rotation.x -= speedR/10;
-                        wheel2.rotation.x -= speedR/10;
-						botCar.position.z -= speedR;
-                    
-                        
-                        if(speedR*6 < Math.floor(Number(localStorage.getItem("speed"))) && typeof localStorage.getItem("speed") == "string"){
-                            speedR += 0.000003;
-                        }
-                        if(typeof localStorage.getItem("speed") != "string" && speedR*6 < 130){
-                                speedR += 0.00002;
-                                localStorage.setItem("speed", 130);
-                                localStorage.setItem("cash",0);
-                            }
-                        }
-                        if(botCar.position.z < -15000){
-                        		clearInterval(MRCInterval);
-                                finished = true;
-                                RcarFinished(finished);
-
-                            }
-                	
-                        }
 					function playMusic(){
 						let num = Math.floor(Math.random() * 18);
 						let audio = new Audio("music/"+String(num)+".mp3");
@@ -1115,5 +1083,7 @@
 			app.initContent();
 			render();
             
+
+
 
 
