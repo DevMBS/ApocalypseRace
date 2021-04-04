@@ -1,5 +1,5 @@
 # Racing
-![screenshot](readme.png)
+![screenshot](screenshot.png)
 ### ThreeJS 3D drag obstacle race game
 #### Setup:
 1. Three.js
