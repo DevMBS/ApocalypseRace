@@ -1,25 +1,25 @@
 //initalizing neural networks
 			const net = new brain.NeuralNetwork();
 			const net2 = new brain.NeuralNetwork();
-
-            //neural network training
+            //neural network No1 training
 			net.train([
-           	{input: {i: 0} , output: {i:0.99 }},
-            {input: {i: 2000} , output: {i:0.97 }},
-            {input: {i: 6000 }, output: {i:0.8 }},
-            {input: {i: 1000 }, output: {i:0.98}},
-            {input: {i: 5000 }, output: {i:0.86}},
-            {input: {i: 10000 }, output: {i:0.3}},
-            {input: {i: 500000 }, output: {i:0.1}}]);
+           	{input: { i: 0 }, output: {i:0.99 }},
+            {input: { i: 2000 }, output: {i:0.97 }},
+            {input: { i: 6000 }, output: {i:0.8 }},
+            {input: { i: 1000 }, output: {i:0.98}},
+            {input: { i: 5000 }, output: {i:0.86}},
+            {input: { i: 10000 }, output: {i:0.3}},
+            {input: { i: 500000 }, output: {i:0.1}}]);
 
-            //neural network2 training
+            //neural network No2 training
 			net2.train([
-            {input: {i: -2000} , output: {i:0.16 }},
-            {input: {i: -6000} , output: {i:0.2 }},
-            {input: {i: -1000 }, output: {i:0.12 }},
-            {input: {i: -5000 }, output: {i:0.18}},
-            {input: {i: -10000 }, output: {i:0.3}},
-            {input: {i: -500000 }, output: {i:0.4}}]);
+            {input: { i: -2000 }, output: {i:0.16 }},
+            {input: { i: -6000 }, output: {i:0.2 }},
+            {input: { i: -1000 }, output: {i:0.12 }},
+            {input: { i: -5000 }, output: {i:0.18}},
+            {input: { i: -10000 }, output: {i:0.3}},
+            {input: { i: -500000 }, output: {i:0.4}}]);
+
 
 			'use strict';
             //initalizing three.js library
@@ -752,8 +752,7 @@
                             
                         }
                     });
-					
-					
+					let ASCSi = 0;
 					function boost(){
 						if(stopperW == false){
                             camera.position.z-=speed;
@@ -766,20 +765,40 @@
 							//																		           //
 							//																		            //
 							//																		             //
-							// USING SUPER MEGA ADAPTIVE SPEED CONTROL SYSTEM (ASCS 2.0) BASED ON NEURAL NETWORKS //
+							// USING SUPER MEGA ADAPTIVE SPEED CONTROL SYSTEM (ASCS 3.0) BASED ON NEURAL NETWORKS //
 							//																		             //
 							//																		            //
 							//																		           //
+							
+							if(speed < 0){
+								ASCSi = -0.8;
+							}
+							else if(0 < speed < 10){
+								ASCSi = 1.02;
+							}
+							else if( 10 < speed < 20){
+								ASCSi = 0.88;
+							}
+							else if(20 < speeed < 30){
+								ASCSi = 0.7;
+							}
+							else if(30 < speed < 40){
+								ASCSi = 1.09;
+							}
+							else if(40 < speed < 50){
+								ASCSi = 0.99;
+							}
+							else{
+								ASCSi = 1.01;
+							}
 
-
-
-							wheel1.position.z -= speed*Number(localStorage.getItem("index"));
-                        	wheel2.position.z -= speed*Number(localStorage.getItem("index"));
-                        	wheel1.rotation.x -= (speed*Number(localStorage.getItem("index")))/10;
-                        	wheel2.rotation.x -= (speed*Number(localStorage.getItem("index")))/10;
-							botCar.position.z -= speed*Number(localStorage.getItem("index"));
+							wheel1.position.z -= Math.floor((speed*Number(localStorage.getItem("index")))*ASCSi);
+                        	wheel2.position.z -= Math.floor((speed*Number(localStorage.getItem("index")))*ASCSi);
+                        	wheel1.rotation.x -= speed*Number(localStorage.getItem("index"))/10;
+                        	wheel2.rotation.x -= speed*Number(localStorage.getItem("index"))/10;
+							botCar.position.z -= Math.floor((speed*Number(localStorage.getItem("index")))*ASCSi);
 							if(botCar.position.z < -15000){
-								clearInterval(MRCInterval);
+								stopperW = true;
 								finished = true;
 								RcarFinished(finished);
 							}
@@ -1083,6 +1102,9 @@
 			app.initContent();
 			render();
             
+
+
+
 
 
 
