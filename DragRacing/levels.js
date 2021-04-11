@@ -604,8 +604,8 @@
                         	camera.position.x+=1+toRightPosCounter;
                             car1.position.x+=1+toRightPosCounter;
 							car.position.x += 1+toRightPosCounter;
-							if(toRightPosCounter < 5){
-								toRightPosCounter++;
+							if(toRightPosCounter < 9){
+								toRightPosCounter+=1.3;
 							}
                             
                             //finish: stop cars, calculate cash, saving cash, printing cash & u win or lose
@@ -655,8 +655,8 @@
                             car1.position.x-=(1+toLeftPosCounter);
 							car.position.x -= (1+toLeftPosCounter);
 							toRightPosCounter = 0;
-							if(toLeftPosCounter < 6){
-								toLeftPosCounter++;
+							if(toLeftPosCounter < 9){
+								toLeftPosCounter+=1.3;
 							}
                             
                             //finish: stop cars, calculate cash, saving cash, printing cash & u win or lose
@@ -702,9 +702,14 @@
                         //break
                         if (event.code == 'KeyS' && stopperW == false) {
 			                    	
-			                        if(speed*6 > 0){
-			                        	
-                                            speed -= 0.3;
+			                        if(speed*6 > 0.89){
+											if(localStorage.getItem("upBreak") == null){
+												speed -= 0.3;
+											}
+                                            else{
+												speed -= Number(localStorage.getItem("upBreak"));
+												console.log(speed);
+											}
                                         
                                             
                                         }
@@ -879,10 +884,17 @@
                             document.getElementById("rs").innerHTML = Math.floor(speed*6)+"KPH";
                             document.getElementById("speed").style.width = String(Math.floor(speed*6)/2)+"%";
                             //speed limit
-                            if(speed*6 < 160){
-                                speed+= 0.01;
+							if(localStorage.getItem("upSpeed") == null){
+                            	if(speed*6 < 161){
+                                	speed+= 0.01;
                             }
-					}
+							}
+							else{
+								if(speed*6 < Number(localStorage.getItem("upSpeed"))){
+									speed+= Number(localStorage.getItem("upBoost"));
+								}
+							}
+						}
 				}
                 
                window.onload = function(){
@@ -1102,10 +1114,6 @@
 			app.initContent();
 			render();
             
-
-
-
-
 
 
 
