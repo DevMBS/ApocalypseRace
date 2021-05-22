@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
 html, body {
   margin: 0;
   height: 100%;
@@ -26,7 +27,7 @@ p{
   position: absolute;
   font-size: 200%;
   padding: 10%;
-  font-family: wgd;
+  font-family: 'Exo 2', sans-serif;
   color: black;
   opacity: 0.0;
   text-shadow: 1px 1px 2px black, 0 0 1em white;
