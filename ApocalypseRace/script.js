@@ -3,7 +3,6 @@ import * as THREE from '../build/three.module.js';
 import {GLTFLoader} from 'https://threejsfundamentals.org/threejs/resources/threejs/r127/examples/jsm/loaders/GLTFLoader.js';
 
 
-
 const canvas = document.querySelector('#c');
 const renderer = new THREE.WebGLRenderer({canvas});
 renderer.shadowMap.enabled = true;
@@ -90,7 +89,36 @@ world3.receiveShadow = true;
 
 
 //cutscene
-let moveCamera1Interval = setInterval(moveCamera1, 10);
+camera.rotation.z = -Math.PI/2;
+camera.position.z = -7;
+camera.position.y = 0;
+let moveHead1Interval = setInterval(moveHead1, 10);
+let moveHead2Interval;
+let moveHead3Interval;
+let moveHead4Interval;
+let moveHead5Interval;
+let moveHead6Interval;
+let moveHead7Interval;
+
+let voiceActing = new Audio('assets/cutscene_start.wav');
+function moveHead1(){
+  let text = "Oh fuck, where I am? Why don't I remember anything? Assistant tell me a memory";
+  document.getElementById("text").innerHTML = text;
+  voiceActing.play();
+  if(camera.rotation.z < 0){
+    camera.rotation.z += Math.PI/120;
+    document.getElementById("text").style.opacity = String(opacity);
+    opacity+= 0.1;
+  }
+  else{
+    clearInterval(moveHead1Interval);
+    //moveHead2Interval = setInterval(moveHead2, 10);
+  }
+}
+
+
+
+//let moveCamera1Interval = setInterval(moveCamera1, 10);
 let moveCamera2Interval;
 let moveCamera3Interval;
 let moveCamera4Interval;
@@ -101,6 +129,7 @@ let moveCamera8Interval;
 let moveCamera9Interval;
 let opacity = 0;
 function moveCamera1(){
+  camera.position.set(-46, 2.5, 0);
   let text = "In 2574, humanity unleashed a war, the consequences of which will never be corrected.";
   document.getElementById("text").innerHTML = text;
   if(camera.position.x < -42){
@@ -248,7 +277,7 @@ function moveCamera9(){
   }
   else{
     clearInterval(moveCamera9Interval);
-    localStorage.setItem('cutSceneComplete', 'true');
+    //localStorage.setItem('cutSceneComplete', 'true');
   }
 
 
@@ -532,3 +561,4 @@ function render() {
 }
 
 requestAnimationFrame(render);
+
