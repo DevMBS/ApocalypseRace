@@ -2,6 +2,7 @@
 html, body {
   margin: 0;
   height: 100%;
+  background-color: black;
 }
 @font-face {
   font-family: wgd; 
@@ -23,12 +24,22 @@ html, body {
   position:absolute;
   z-index: 1;
 }
-p{
+#text{
+  left: 25%;
+  top: 65%;
+  font-size: 160%;
   position: absolute;
-  font-size: 200%;
-  padding: 10%;
   font-family: 'Exo 2', sans-serif;
   color: black;
-  opacity: 0.0;
   text-shadow: 1px 1px 2px black, 0 0 1em white;
+}
+#effects{
+  position: absolute;
+  left: 40%;
+  top: 40%;
+}
+#assistant{
+  height: 100%;
+  width: 100%;
+  display: none;
 }
