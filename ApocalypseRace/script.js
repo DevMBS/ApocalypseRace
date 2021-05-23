@@ -90,35 +90,148 @@ world3.receiveShadow = true;
 
 //cutscene
 camera.rotation.z = -Math.PI/2;
-camera.position.z = -7;
-camera.position.y = 0;
+camera.position.set(-28, 0, -10);
 let moveHead1Interval = setInterval(moveHead1, 10);
 let moveHead2Interval;
 let moveHead3Interval;
 let moveHead4Interval;
 let moveHead5Interval;
-let moveHead6Interval;
-let moveHead7Interval;
+let blackoutInterval;
+let firstStepComplete = false;
+let moveCamera1Interval;
 
-let voiceActing = new Audio('assets/cutscene_start.wav');
+let spaceNoise = new Audio('assets/sounds.mp3');
+spaceNoise.play();
+let voiceActing1 = new Audio('assets/cutscene_start.wav');
+let voiceActing2 = new Audio('assets/cutscene_main.wav');
 function moveHead1(){
-  let text = "Oh fuck, where I am? Why don't I remember anything? Assistant tell me a memory";
-  document.getElementById("text").innerHTML = text;
-  voiceActing.play();
+  voiceActing1.play();
   if(camera.rotation.z < 0){
     camera.rotation.z += Math.PI/120;
-    document.getElementById("text").style.opacity = String(opacity);
-    opacity+= 0.1;
   }
   else{
     clearInterval(moveHead1Interval);
-    //moveHead2Interval = setInterval(moveHead2, 10);
+    moveHead2Interval = setInterval(moveHead2, 10);
+  }
+}
+function moveHead2(){
+  if(camera.rotation.y < Math.PI/4){
+    camera.rotation.y += Math.PI/100;
+    if(camera.position.y < 0.5){
+      camera.position.y += 0.015;
+    }
+  }
+  else{
+    clearInterval(moveHead2Interval);
+    moveHead3Interval = setInterval(moveHead3, 10);
+  }
+}
+function moveHead3(){
+  if(camera.rotation.y > -Math.PI){
+    camera.rotation.y -= Math.PI/100;
+  }
+  else{
+    clearInterval(moveHead3Interval);
+    moveHead4Interval = setInterval(moveHead4, 10);
+  }
+}
+function moveHead4(){
+  if(camera.rotation.y < -Math.PI/2){
+    camera.rotation.y += Math.PI/100;
+  }
+  else{
+    clearInterval(moveHead4Interval);
+    moveHead5Interval = setInterval(moveHead5, 10);
+  }
+}
+let opacity = 1.0;
+let stop = false;
+function moveHead5(){
+  if(opacity > 0.0 && !stop){
+    opacity -= 0.03;
+    document.getElementById("cc").style.opacity = String(opacity);
+  }
+  else{
+    stop = true;
+    if(opacity < 1.0){
+      opacity+= 0.03;
+      document.getElementById("cc").style.opacity = String(opacity);
+    }
+    else{
+      clearInterval(moveHead5Interval);
+      setTimeout(showAssistant, 5000);
+      function showAssistant(){
+        document.getElementById("assistant").style.display = "block";
+        let txtCntnr = document.getElementById("text");
+        let requestToAssistantInterval = setInterval(requestToAssistant, 400);
+        let rta = 0;
+        function requestToAssistant(){
+          switch(rta){
+            case 0:
+              txtCntnr.innerHTML = "Tell ";
+              rta++;
+              break;
+            case 1:
+              txtCntnr.innerHTML += "me ";
+              rta++;
+              break;
+            case 2:
+              txtCntnr.innerHTML += "a ";
+              rta++;
+              break;
+            case 3:
+              txtCntnr.innerHTML += "memory";
+              rta++;
+              break;
+            case 4:
+              txtCntnr.innerHTML = "Processing request...";
+              rta++;
+              break;
+            case 5:
+              txtCntnr.innerHTML = "Searching for saved memories...";
+              rta++;
+              break;
+            case 6:
+              clearInterval(requestToAssistantInterval);
+              txtCntnr.innerHTML = "Launching the programm...";
+              blackoutInterval = setInterval(blackout, 10);
+              document.body.style.backgroundColor = "white";
+              break;
+          }
+        }
+        let o = 1.0;
+        let so = false;
+        function blackout(){
+          if(!firstStepComplete){
+            if(o > 0 && !so){
+              document.getElementById("cc").style.opacity = String(o);
+              o-=0.005;
+            }
+            else{
+              so = true;
+              camera.position.set(-46, 2.5, 0);
+              if(o < 1){
+                document.getElementById("cc").style.opacity = String(o);
+                o+=0.005;
+                document.getElementById("text").style.display = "none";
+                document.getElementById("assistant").style.display = "none";
+              }
+              else{
+                clearInterval(blackoutInterval);
+                firstStepComplete = true;
+                moveCamera1Interval = setInterval(moveCamera1, 10);
+                voiceActing2.play();
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
 
 
-//let moveCamera1Interval = setInterval(moveCamera1, 10);
 let moveCamera2Interval;
 let moveCamera3Interval;
 let moveCamera4Interval;
@@ -127,17 +240,12 @@ let moveCamera6Interval;
 let moveCamera7Interval;
 let moveCamera8Interval;
 let moveCamera9Interval;
-let opacity = 0;
 function moveCamera1(){
-  camera.position.set(-46, 2.5, 0);
-  let text = "In 2574, humanity unleashed a war, the consequences of which will never be corrected.";
-  document.getElementById("text").innerHTML = text;
   if(camera.position.x < -42){
     camera.rotation.y += 0.004;
     camera.position.z += 0.015;
     camera.position.x +=0.012;
-    document.getElementById("text").style.opacity = String(opacity);
-    opacity+=0.01;
+    
   }
   else{
     clearInterval(moveCamera1Interval);
@@ -154,69 +262,51 @@ function moveCamera2(){
   }
   else{
     clearInterval(moveCamera2Interval);
-    opacity = 0;
     moveCamera3Interval = setInterval(moveCamera3, 10);
   }
 
 
 }
 function moveCamera3(){
-  let text = "The Earth turned into a kingdom of radioactive dirt, wherefore it impossible to live on it, so all the remaining inhabitants of the Earth united and built a huge spaceship, which they put into Earth's orbit and settled in it forever.";
-  document.getElementById("text").innerHTML = text;
   if(camera.rotation.y < Math.PI+Math.PI/3){
     camera.rotation.y += 0.0032;
     camera.position.z -= 0.011;
     camera.position.x +=0.012;
-    document.getElementById("text").style.opacity = String(opacity);
-    opacity+=0.01;
   }
   else{
     clearInterval(moveCamera3Interval);
-    opacity = 0;
     moveCamera4Interval = setInterval(moveCamera4, 10);
   }
 
 
 }
 function moveCamera4(){
-  let text = "But you ask, what am I doing here if all people are far away in space? The fact is that not everyone had enough space on the ship...";
-  document.getElementById("text").innerHTML = text;
   if(camera.position.y >= 0.1){
     camera.position.x +=0.02;
     camera.position.y -= 0.0033;
-    document.getElementById("text").style.opacity = String(opacity);
-    opacity+=0.01;
   }
   else{
     clearInterval(moveCamera4Interval);
-    opacity = 0;
     moveCamera5Interval = setInterval(moveCamera5, 10);
   }
 
 
 }
 function moveCamera5(){
-  let text = "The poor strata of the population remained on Earth to survive. But hope has not faded. The fleeing earthlings left behind a gravitational cannon with which you can get to space, you just need to get to it.";
-  document.getElementById("text").innerHTML = text;
   if(camera.position.y <= 7 && camera.rotation.y < Math.PI*2+Math.PI/3){
     camera.position.x +=0.02;
     camera.position.y += 0.0066;
     camera.rotation.y += 0.004;
     camera.position.z += 0.0066;
-    document.getElementById("text").style.opacity = String(opacity);
-    opacity+=0.01;
   }
   else{
     clearInterval(moveCamera5Interval);
-    opacity = 0;
     moveCamera6Interval = setInterval(moveCamera6, 10);
   }
 
 
 }
 function moveCamera6(){
-  let text = "On wheeled vehicles, it's impossible, because a multi-meter layer of radioactive dirt covers almost the entire Earth, so Runners were created - fast flying machines protected from radiation.";
-  document.getElementById("text").innerHTML = text;
   if(camera.position.x < 120){
     camera.position.x +=0.03;
     if(camera.position.x < 62){
@@ -224,40 +314,28 @@ function moveCamera6(){
     }
     else{
       camera.position.y += 0.0028;
-      let text = "And you're in luck - just recently you had enough money to buy one of these. So now is the time to start the race for life! just be careful, it constantly rains trash and remnants of buildings, also get used to the constant temperature changes. It will be a fun journey, albeit challenging..";
-      document.getElementById("text").innerHTML = text;
     }
-    document.getElementById("text").style.opacity = String(opacity);
-    opacity+=0.01;
   }
   else{
     clearInterval(moveCamera6Interval);
-    opacity = 0;
     moveCamera7Interval = setInterval(moveCamera7, 10);
   }
 
 
 }
 function moveCamera7(){
-  let text = "So... Get into your Runner and go!";
-  document.getElementById("text").innerHTML = text;
   if(camera.rotation.y < Math.PI*2+(Math.PI/3)*2){
     camera.position.z +=0.0305;
     camera.rotation.y += 0.006;
-    document.getElementById("text").style.opacity = String(opacity);
-    opacity+=0.01;
   }
   else{
     clearInterval(moveCamera7Interval);
-    opacity = 0;
-    document.getElementById("text").innerHTML = ""
     moveCamera8Interval = setInterval(moveCamera8, 10);
   }
 
 
 }
 function moveCamera8(){
-  document.getElementById("text").innerHTML = "";
   if(camera.rotation.y < Math.PI*3+Math.PI/2){
     camera.position.x -=0.4;
     camera.rotation.y += 0.012;
@@ -561,4 +639,3 @@ function render() {
 }
 
 requestAnimationFrame(render);
-
