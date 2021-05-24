@@ -99,9 +99,15 @@ let moveHead5Interval;
 let blackoutInterval;
 let firstStepComplete = false;
 let moveCamera1Interval;
+let flashInterval;
 
 let spaceNoise = new Audio('assets/sounds.mp3');
 spaceNoise.play();
+setTimeout(playNoise, 100);
+function playNoise(){
+  spaceNoise.play();
+  setTimeout(playNoise, 100);
+}
 let voiceActing1 = new Audio('assets/cutscene_start.wav');
 let voiceActing2 = new Audio('assets/cutscene_main.wav');
 function moveHead1(){
@@ -221,6 +227,7 @@ function moveHead5(){
                 firstStepComplete = true;
                 moveCamera1Interval = setInterval(moveCamera1, 10);
                 voiceActing2.play();
+                setTimeout(cutsceneFinal, voiceActing2.duration*1000);
               }
             }
           }
@@ -360,7 +367,72 @@ function moveCamera9(){
 
 
 }
+
+function cutsceneFinal(){
+  let voiceActing3 = new Audio('assets/cutscene_end.wav');
+  voiceActing3.play();
+  setTimeout(okok, 4500);
 }
+
+function okok(){
+  let voiceActing4 = new Audio('assets/cutscene_ok.wav');
+  voiceActing4.play();
+  setTimeout(returnToReality, 3500);
+}
+
+function returnToReality(){
+  document.getElementById("cc").style.opacity = "0.5";
+  document.body.style.backgroundColor = "black";
+  document.getElementById("text").style.display = "block";
+  document.getElementById("text").style.width = "600px";
+  document.getElementById("text").innerHTML = "Restoration of damaged areas of the brain...";
+  setTimeout(flash, 26000);
+}
+
+function flash(){
+  document.getElementById("cc").style.opacity = "1.0";
+  document.getElementById("text").innerHTML = "";
+  document.getElementById("cc").style.opacity = "1.0";
+  document.getElementById("text").innerHTML = "";
+  document.body.style.backgroundColor = "white";
+  flashInterval = setInterval(prestartingGame, 10);
+}
+
+let wo = 1;
+let sw = false;
+function prestartingGame(){
+  if(wo > 0 && !sw){
+    wo -= 0.005;
+    document.getElementById("cc").style.opacity = String(wo);
+  }
+  else{
+    sw = true;
+    if(wo < 1){
+      wo+= 0.005;
+      document.getElementById("cc").style.opacity = String(wo);
+    }
+    else{
+      clearInterval(flashInterval);
+    }
+  }
+}
+
+}
+
+
+
+
+
+//end cutscene
+
+
+
+
+
+
+
+
+
 else{
 
 
@@ -415,6 +487,7 @@ document.addEventListener('keyup', function(event){
     }
   }
 });
+
 
 
 
