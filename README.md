@@ -1,6 +1,6 @@
 # Apocalypse Race
 ![screenshot](screenshot.png)
-### ThreeJS 3D apocalypse runner game
+### ThreeJS 3D apocalypse runner game with plot
 
 
 
