@@ -362,7 +362,7 @@ function moveCamera9(){
   }
   else{
     clearInterval(moveCamera9Interval);
-    //localStorage.setItem('cutSceneComplete', 'true');
+    localStorage.setItem('cutSceneComplete', 'true');
   }
 
 
@@ -435,7 +435,7 @@ function prestartingGame(){
 
 else{
 
-
+document.getElementById("km_left").innerHTML = "500 km left";
 document.addEventListener('keydown', function(event) {
   if(event.code == 'KeyA'){
     if(spacecraft.position.z > -8.5){
@@ -637,7 +637,7 @@ function animateObstacle(obstacle){
 }
 
 
-
+var distanceCovered = 0;
 var speed = 0;
 var boostInterval = setInterval(boost, 10);
 let index = 0;
@@ -686,6 +686,9 @@ function boost(){
     spacecraft.position.x = -43;
     hitbox.position.x = -43.4;
     camera.position.x = -46;
+    distanceCovered++;
+    document.getElementById("progress").style.width = String(distanceCovered/25)+"%";
+    document.getElementById("km_left").innerHTML = String(500 - distanceCovered)+" km left";
   }
 }
 }
