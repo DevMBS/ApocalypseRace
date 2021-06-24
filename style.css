@@ -1,7 +1,7 @@
 body{
   font-family:wgd;
-  color:aqua;
-  background-color: black;
+  color:black;
+  background-image: url(ApocalypseRace/assets/atm.jpg);
 }
 h1{
   font-family: wgd;
@@ -11,7 +11,7 @@ hr{
   padding: 0;
   height: 6px;
   border: none;
-  background: linear-gradient(45deg, #000000, aqua);
+  background: linear-gradient(45deg, #000000, white);
 }
 *{
     margin:0;
@@ -19,7 +19,7 @@ hr{
     box-sizing:border-box;
 }
 .btn {
-    color: #00f8ff;
+    color: black;
     cursor:pointer;
     top:70%;
     left: 70%;
@@ -42,12 +42,12 @@ hr{
 }
 .btn .line1{
     fill:none;
-    stroke:#00f8ff;
+    stroke:black;
     stroke-width: 1;
 }
 .btn .line2{
     fill:none;
-    stroke:#00f8ff;
+    stroke:black;
     stroke-linecap:round;
     stroke-width:15;
     stroke-dasharray:230;
@@ -79,25 +79,22 @@ hr{
   font-family: wgd; 
   src: url(p.ttf); 
 }
-#dm{
-  font-size: 500%;
-  margin-left: 34%;
-  margin-top:200px;
-  animation: color-change 3s infinite;
+#logo, #fd{
+  display: inline;
+  position: absolute;
+  top: 5%;
 }
-#l{
-  font-size: 120%;
-  margin-left: 45%;
-  margin-top:300px;
-  animation: color-change2 3s infinite;
+#fd{
+  left:8%;
+  top: 8%;
 }
-@keyframes color-change {
-  0% { color: black; }
-  50% { color:aqua; }
-  100% { color: black; }
-}
-@keyframes color-change2 {
-  0% { color: aqua; margin-left:0%; }
-  50% { color:black; margin-left:45%; }
-  100% { color: aqua; margin-left:89%; }
+#ar {
+  margin-left: 25%;
+  text-align: center;
+  font-size: 300%;
+  background: linear-gradient(135deg, #12BCB0 20%, rgb(255, 26, 10) 70%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding: 0.3em 0.6em ;
 }
