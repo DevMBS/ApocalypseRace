@@ -165,7 +165,7 @@ function moveHead5(){
     }
     else{
       clearInterval(moveHead5Interval);
-      setTimeout(showAssistant, 5000);
+      setTimeout(showAssistant, 10000);
       function showAssistant(){
         document.getElementById("assistant").style.display = "block";
         let txtCntnr = document.getElementById("text");
@@ -527,7 +527,7 @@ function animateObstacle(obstacle){
   obstacle.position.set(obstacle.position.x, 50, zCoord);
   let moveObstacleDownInterval = setInterval(moveObstacleDown, 10);
   function moveObstacleDown(){
-    if(obstacle.position.y > 4){
+    if(obstacle.position.y > 2){
       obstacle.position.y -= 5;
     }
     else{
@@ -639,6 +639,8 @@ function animateObstacle(obstacle){
 
 var distanceCovered = 0;
 var speed = 0;
+var stop = false;
+let boomCounter = 0;
 var boostInterval = setInterval(boost, 10);
 let index = 0;
 let scaterringInterval = setInterval(scatter, 10);
@@ -661,9 +663,47 @@ function scatter(){
   }
   index++;
 }
+
+
+function boomAnimationLite(){
+  let boomRotationInterval = setInterval(boomRotation, 10);
+  let c = 0;
+  let g = 0;
+  let rotSide = Math.round(Math.random());
+  if(!rotSide){
+    rotSide = -1;
+  }
+  function boomRotation(){
+    if(c < 70*speed){
+      spacecraft.rotation.z -= 0.2*speed*rotSide;
+      hitbox.rotation.z -= 0.2*speed*rotSide;
+      spacecraft.position.y += 0.1-g;
+      hitbox.position.y += 0.1-g;
+      camera.position.y += 0.1-g;
+      g+=0.0005;
+      speed -= 0.01;
+      camera.position.x += speed;
+      spacecraft.position.x += speed;
+      hitbox.position.x += speed;
+      c++;
+    }
+    else{
+      clearInterval(boomRotationInterval);
+    }
+    //dopilit' padenie
+  }
+
+}
+
+function boomAnimationHard(){
+  
+}
+
 function boost(){
+  if(!stop){
   var collidableMeshList = [obstacle1, obstacle2, obstacle3, obstacle4];						
 	var originPoint = hitbox.position.clone();
+  
 	for (var vertexIndex = 0; vertexIndex < hitbox.geometry.vertices.length; vertexIndex++){		
 	  var localVertex = hitbox.geometry.vertices[vertexIndex].clone();
 	  var globalVertex = localVertex.applyMatrix4( hitbox.matrix );
@@ -671,7 +711,15 @@ function boost(){
 	  var ray = new THREE.Raycaster( originPoint, directionVector.clone().normalize() );
 	  var collisionResults = ray.intersectObjects( collidableMeshList );
     if ( collisionResults.length > 0 && collisionResults[0].distance < directionVector.length() ) {
-      alert("BOOOOOM!");
+      if(boomCounter < 3){
+        stop = true;
+        boomAnimationLite();
+        boomCounter++;
+      }
+      else{
+        stop = true;
+        boomAnimationHard();
+      }
     }
   }
   camera.position.x += speed;
@@ -690,6 +738,7 @@ function boost(){
     document.getElementById("progress").style.width = String(distanceCovered/25)+"%";
     document.getElementById("km_left").innerHTML = String(500 - distanceCovered)+" km left";
   }
+}
 }
 }
 }
